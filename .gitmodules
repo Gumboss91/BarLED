@@ -1,0 +1,3 @@
+[submodule "RaspberryCode/source/wiringPi"]
+	path = RaspberryCode/source/wiringPi
+	url = git://git.drogon.net/wiringPi
