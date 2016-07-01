@@ -3,8 +3,9 @@
 int main(int argc, char *argv[]) {
 	
 	initSPI();
-	setRGB(1, 1000, 1000, 1000);
-	printSPIBuff();
+	
+	setRGB(1,argv[1]);
+//	printSPIBuff();
 	return 0;
 }
 
