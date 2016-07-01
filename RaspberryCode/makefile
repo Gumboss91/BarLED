@@ -1,4 +1,7 @@
-all: setRGB.o
+all: setRGBTest.o BarLEDServer.o
+ 
+setRGBTest.o: setRGBTest.c
+	gcc setRGBTest.c -o setRGBTest -lwiringPi
 
-setRGB.o: setRGB.c
-	gcc setRGB.c -o setRGB -lwiringPi
+BarLEDServer.o: BarLEDServer.c
+	gcc BarLEDServer.c -o BarLEDServer -lpthread -lwiringPi

@@ -20,7 +20,7 @@ unsigned char spiBuff[LEN];
 
 // function declaration
 int initSPI();
-signed char setRGB(int ledChan, int r, int g, int b);
+signed char setRGB(int ledChan, char *input);
 
 // debug funvlion
 void printSPIBuff();
@@ -55,47 +55,55 @@ int initSPI(){
 	return;
 }
 
-signed char setRGB(int ledChan, int r, int g, int b){
+signed char setRGB(int ledChan, char *input){
 //Eingabepruefung
 	if(ledChan > 4)
 		return -1;
+	// Hex Input convert to RGB Values
+	int hexInValue = (int) strtol(input, NULL, 0);
+
+	unsigned int b = 257*(hexInValue & 0xff);
+	unsigned int g = 257*((hexInValue >> 8 ) & 0xff);
+	unsigned int r = 257*((hexInValue >> 16) & 0xff);
+	
+	
 	if(r > 65535 || g > 65535 || b > 65535)
 		return -2;
 
 //Setzten der Bufferbits fuer den ausgewäten Channel
 	switch(ledChan){
 		case 1:	spiBuff[27] = r;
-				spiBuff[26] = r >> 8;
-				spiBuff[25] = g;
-				spiBuff[24] = g >> 8;
-				spiBuff[23] = b;
-				spiBuff[22] = b >> 8;
-				break;
+						spiBuff[26] = r >> 8;
+						spiBuff[25] = g;
+						spiBuff[24] = g >> 8;
+						spiBuff[23] = b;
+						spiBuff[22] = b >> 8;
+						break;
 	
 		case 2:	spiBuff[21] = r;
-				spiBuff[20] = r >> 8;
-				spiBuff[19] = g;
-				spiBuff[18] = g >> 8;
-				spiBuff[17] = b;
-				spiBuff[16] = b >> 8;
-				break;
-	
+						spiBuff[20] = r >> 8;
+						spiBuff[19] = g;
+						spiBuff[18] = g >> 8;
+						spiBuff[17] = b;
+						spiBuff[16] = b >> 8;
+						break;
+		
 		case 3:	spiBuff[15] = r;
-				spiBuff[14] = r >> 8;
-				spiBuff[13] = g;
-				spiBuff[12] = g >> 8;
-				spiBuff[11] = b;
-				spiBuff[10] = b >> 8;
-				break;
+						spiBuff[14] = r >> 8;
+						spiBuff[13] = g;
+						spiBuff[12] = g >> 8;
+						spiBuff[11] = b;
+						spiBuff[10] = b >> 8;
+						break;
 	
 		case 4:	spiBuff[9] = r;
-				spiBuff[8] = r >> 8;
-				spiBuff[7] = g;
-				spiBuff[6] = g >> 8;
-				spiBuff[5] = b;
-				spiBuff[4] = b >> 8;
-				break;
-	default:	return -1; break;
+						spiBuff[8] = r >> 8;
+						spiBuff[7] = g;
+						spiBuff[6] = g >> 8;
+						spiBuff[5] = b;
+						spiBuff[4] = b >> 8;
+						break;
+		default:	return -1; break;
 	}
 	
 // Send Buffer over SPI
